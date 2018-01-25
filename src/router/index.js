@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 
 Vue.use(Router)
-
+// sdfklsdkfl;sdl
 export default new Router({
   routes: [
     {

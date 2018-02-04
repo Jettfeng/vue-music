@@ -13,7 +13,7 @@ export function getRecommend() {
 
   return jsonp(url, data, options)
 }
-// 获取歌单
+// ��ȡ�赥
 export function getDiscList() {
   const url = '/api/getDiscList'
 

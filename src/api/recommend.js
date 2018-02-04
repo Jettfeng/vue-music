@@ -13,7 +13,7 @@ export function getRecommend() {
 
   return jsonp(url, data, options)
 }
-
+// 获取歌单
 export function getDiscList() {
   const url = '/api/getDiscList'
 
@@ -29,7 +29,15 @@ export function getDiscList() {
     format: 'json'
   })
 
-  return axios.get(url, {
+  // return axios.get(url, {
+  //   params: data
+  // }).then((res) => {
+  //   return Promise.resolve(res.data)
+  // })
+
+  return axios({
+    method: 'get',
+    url: url,
     params: data
   }).then((res) => {
     return Promise.resolve(res.data)

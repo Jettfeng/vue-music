@@ -46,7 +46,7 @@
           this._play()
         }
       }, 20)
-
+      // 窗口缩放时。重置宽度
       window.addEventListener('resize', () => {
         if (!this.slider) {
           return
@@ -67,6 +67,7 @@
       clearTimeout(this.timer)
     },
     methods: {
+      // 设置宽度
       _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
 
@@ -84,6 +85,7 @@
         }
         this.$refs.sliderGroup.style.width = width + 'px'
       },
+      // 初始化slider
       _initSlider() {
         this.slider = new BScroll(this.$refs.slider, {
           scrollX: true,
@@ -94,14 +96,14 @@
           snapThreshold: 0.3,
           snapSpeed: 400
         })
-
+        // 派发scrollEnd事件，scrollEnd（向第一个位置添加元素）
         this.slider.on('scrollEnd', () => {
           let pageIndex = this.slider.getCurrentPage().pageX
           if (this.loop) {
             pageIndex -= 1
           }
           this.currentPageIndex = pageIndex
-
+          // 滚动结束，自动播放
           if (this.autoPlay) {
             this._play()
           }
@@ -122,6 +124,7 @@
           pageIndex += 1
         }
         this.timer = setTimeout(() => {
+          // 当 snap 为 true，滚动到对应的页面，x 表示横向页面索引，y 表示纵向页面索引， time 表示动画，easing 表示缓动函数
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
       }

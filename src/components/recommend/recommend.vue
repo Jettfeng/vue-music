@@ -1,21 +1,26 @@
 <template>
   <div class="recommend" ref="recommend">
+    <!--scroll组件-->
     <scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
+        <!--首先判断是否有数据-->
         <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
           <slider>
             <div v-for="item in recommends">
               <a :href="item.linkUrl">
+                <!--添加class="needsclick"可以 避免与fastclick插件冲突，如果不加，图片不能点击-->
                 <img class="needsclick" @load="loadImage" :src="item.picUrl">
               </a>
             </div>
           </slider>
         </div>
+        <!--歌单列表-->
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
           <ul>
             <li v-for="item in discList" class="item">
               <div class="icon">
+                <!--图片懒加载中-->
                 <img width="60" height="60"  v-lazy="item.imgurl">
               </div>
               <div class="text">
@@ -55,8 +60,10 @@
     },
     methods: {
       loadImage() {
+        // 图片加载出来刷新scroll，因为轮播组件的高度由图片撑开
         if (!this.checkloaded) {
           this.checkloaded = true
+          // 调用子组件scroll里面的refresh()方法
           this.$refs.scroll.refresh()
         }
       },

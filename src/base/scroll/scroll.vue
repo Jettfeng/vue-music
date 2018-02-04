@@ -23,11 +23,13 @@
       }
     },
     mounted() {
+      // 确保dom渲染再初始化scroll
       setTimeout(() => {
         this._initScroll()
       }, 20)
     },
     methods: {
+      // 初始化
       _initScroll() {
         if (!this.$refs.wrapper) {
           return
@@ -37,12 +39,15 @@
           click: this.click
         })
       },
+      // enable()启用 better-scroll，默认开启
       enable() {
         this.scroll && this.scroll.enable()
       },
+      // disable()禁用 better-scroll
       disable() {
         this.scroll && this.scroll.disable()
       },
+      // refresh()强制 scroll 重新计算，当 better-scroll 中的元素发生变化的时候调用此方法。
       refresh() {
         this.scroll && this.scroll.refresh()
       }

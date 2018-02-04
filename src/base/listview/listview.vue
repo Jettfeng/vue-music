@@ -6,16 +6,18 @@
           class="listview"
           ref="listview">
     <ul>
+      <!--歌手列表-->
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
-        <uL>
+        <ul>
           <li v-for="item in group.items" class="list-group-item">
             <img class="avatar" v-lazy="item.avatar">
             <span class="name">{{item.name}}</span>
           </li>
-        </uL>
+        </ul>
       </li>
     </ul>
+    <!--右边的数字列表-->
     <div class="list-shortcut" @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove"
          @touchend.stop>
       <ul>
@@ -49,6 +51,7 @@
       }
     },
     computed: {
+      // 获取字母列表
       shortcutList() {
         return this.data.map((group) => {
           return group.title.substr(0, 1)
@@ -69,6 +72,7 @@
       }
     },
     created() {
+      // 所有data里面的数据都会被vue添加getter和setter，观测数据的变化，这里的数据不需要
       this.probeType = 3
       this.listenScroll = true
       this.touch = {}
@@ -76,17 +80,17 @@
     },
     methods: {
       onShortcutTouchStart(e) {
+        // 获取data-index属性
         let anchorIndex = getData(e.target, 'index')
-        let firstTouch = e.touches[0]
+        let firstTouch = e.touches[0]// 第一个手指
         this.touch.y1 = firstTouch.pageY
         this.touch.anchorIndex = anchorIndex
-
         this._scrollTo(anchorIndex)
       },
       onShortcutTouchMove(e) {
         let firstTouch = e.touches[0]
         this.touch.y2 = firstTouch.pageY
-        let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
+        let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0 // 后面加0相当于Math.floor()
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta
 
         this._scrollTo(anchorIndex)
@@ -108,6 +112,7 @@
           this.listHeight.push(height)
         }
       },
+      // 滚动到第几个元素
       _scrollTo(index) {
         if (!index && index !== 0) {
           return

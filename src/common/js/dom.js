@@ -10,7 +10,7 @@ export function addClass(el, className) {
   newClass.push(className)
   el.className = newClass.join(' ')
 }
-
+// 获取自定义属性
 export function getData(el, name, val) {
   const prefix = 'data-'
   if (val) {

@@ -26,6 +26,7 @@
         </li>
       </ul>
     </div>
+    <!--fixedTitle为空的时候隐藏-->
     <div class="list-fixed" ref="fixed" v-show="fixedTitle">
       <div class="fixed-title">{{fixedTitle}} </div>
     </div>
@@ -57,6 +58,7 @@
           return group.title.substr(0, 1)
         })
       },
+      // 固定标题
       fixedTitle() {
         if (this.scrollY > 0) {
           return ''
@@ -101,6 +103,7 @@
       scroll(pos) {
         this.scrollY = pos.y
       },
+      // 计算高度
       _calculateHeight() {
         this.listHeight = []
         const list = this.$refs.listGroup
@@ -129,9 +132,11 @@
     watch: {
       data() {
         setTimeout(() => {
+          // 延迟20s计算高度
           this._calculateHeight()
         }, 20)
       },
+      // 检测scrollY
       scrollY(newY) {
         const listHeight = this.listHeight
         // 当滚动到顶部，newY>0
@@ -149,7 +154,7 @@
             return
           }
         }
-        // 当滚动到底部，且-newY大于最后一个元素的上限
+        // 当滚动到底部，且-newY大于最后一个元素的上限（最后一个）
         this.currentIndex = listHeight.length - 2
       },
       diff(newVal) {

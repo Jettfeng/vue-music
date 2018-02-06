@@ -1,6 +1,7 @@
 <template>
   <div class="singer" ref="singer">
-    <list-view :data="singers"></list-view>
+    <list-view @select="selectSinger" :data="singers"></list-view>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
   import Singer from 'common/js/singer'
+  import {mapMutations} from 'vuex'
 
   const HOT_SINGER_LEN = 10
   const HOT_NAME = '热门'
@@ -23,11 +25,16 @@
       this._getSingerList()
     },
     methods: {
+      selectSinger(singer) {
+        this.$router.push({
+          path: `/singer/${singer.id}`
+        })
+        this.setSinger(singer)
+      },
       _getSingerList() {
         getSingerList().then((res) => {
           if (res.code === ERR_OK) {
             this.singers = this._normalizeSinger(res.data.list)
-            console.log(this._normalizeSinger(res.data.list))
           }
         })
       },
@@ -38,7 +45,6 @@
             items: []
           }
         }
-        // 处理歌手数据，热门数据为前10条
         list.forEach((item, index) => {
           if (index < HOT_SINGER_LEN) {
             map.hot.items.push(new Singer({
@@ -58,7 +64,7 @@
             id: item.Fsinger_mid
           }))
         })
-        // 为了得到有序列表，我们需要处理 map,分为hot跟ret两个数组，最后合并为一个数组
+        // 为了得到有序列表，我们需要处理 map
         let ret = []
         let hot = []
         for (let key in map) {
@@ -70,10 +76,13 @@
           }
         }
         ret.sort((a, b) => {
-          return a.title.charCodeAt(0) - b.title.charCodeAt(0)// 按字母排序
+          return a.title.charCodeAt(0) - b.title.charCodeAt(0)
         })
         return hot.concat(ret)
-      }
+      },
+      ...mapMutations({
+        setSinger: 'SET_SINGER'
+      })
     },
     components: {
       ListView

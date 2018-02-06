@@ -17,7 +17,6 @@
         type: Boolean,
         default: true
       },
-      // 监听滚动事件
       listenScroll: {
         type: Boolean,
         default: false

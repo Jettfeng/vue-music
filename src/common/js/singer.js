@@ -1,4 +1,3 @@
-// es6类的概念
 export default class Singer {
   constructor({id, name}) {
     this.id = id

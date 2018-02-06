@@ -6,27 +6,24 @@
           class="listview"
           ref="listview">
     <ul>
-      <!--歌手列表-->
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
-        <ul>
-          <li v-for="item in group.items" class="list-group-item">
+        <uL>
+          <li @click="selectItem(item)" v-for="item in group.items" class="list-group-item">
             <img class="avatar" v-lazy="item.avatar">
             <span class="name">{{item.name}}</span>
           </li>
-        </ul>
+        </uL>
       </li>
     </ul>
-    <!--右边的数字列表-->
-    <div class="list-shortcut" @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove"
-         @touchend.stop>
+    <div class="list-shortcut" @touchstart="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove">
       <ul>
         <li v-for="(item, index) in shortcutList" :data-index="index" class="item"
             :class="{'current':currentIndex===index}">{{item}}
+
         </li>
       </ul>
     </div>
-    <!--fixedTitle为空的时候隐藏-->
     <div class="list-fixed" ref="fixed" v-show="fixedTitle">
       <div class="fixed-title">{{fixedTitle}} </div>
     </div>
@@ -52,13 +49,11 @@
       }
     },
     computed: {
-      // 获取字母列表
       shortcutList() {
         return this.data.map((group) => {
           return group.title.substr(0, 1)
         })
       },
-      // 固定标题
       fixedTitle() {
         if (this.scrollY > 0) {
           return ''
@@ -74,25 +69,27 @@
       }
     },
     created() {
-      // 所有data里面的数据都会被vue添加getter和setter，观测数据的变化，这里的数据不需要
       this.probeType = 3
       this.listenScroll = true
       this.touch = {}
       this.listHeight = []
     },
     methods: {
+      selectItem(item) {
+        this.$emit('select', item)
+      },
       onShortcutTouchStart(e) {
-        // 获取data-index属性
         let anchorIndex = getData(e.target, 'index')
-        let firstTouch = e.touches[0]// 第一个手指
+        let firstTouch = e.touches[0]
         this.touch.y1 = firstTouch.pageY
         this.touch.anchorIndex = anchorIndex
+
         this._scrollTo(anchorIndex)
       },
       onShortcutTouchMove(e) {
         let firstTouch = e.touches[0]
         this.touch.y2 = firstTouch.pageY
-        let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0 // 后面加0相当于Math.floor()
+        let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta
 
         this._scrollTo(anchorIndex)
@@ -103,7 +100,6 @@
       scroll(pos) {
         this.scrollY = pos.y
       },
-      // 计算高度
       _calculateHeight() {
         this.listHeight = []
         const list = this.$refs.listGroup
@@ -115,7 +111,6 @@
           this.listHeight.push(height)
         }
       },
-      // 滚动到第几个元素
       _scrollTo(index) {
         if (!index && index !== 0) {
           return
@@ -132,11 +127,9 @@
     watch: {
       data() {
         setTimeout(() => {
-          // 延迟20s计算高度
           this._calculateHeight()
         }, 20)
       },
-      // 检测scrollY
       scrollY(newY) {
         const listHeight = this.listHeight
         // 当滚动到顶部，newY>0
@@ -154,7 +147,7 @@
             return
           }
         }
-        // 当滚动到底部，且-newY大于最后一个元素的上限（最后一个）
+        // 当滚动到底部，且-newY大于最后一个元素的上限
         this.currentIndex = listHeight.length - 2
       },
       diff(newVal) {

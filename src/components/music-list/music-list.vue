@@ -4,16 +4,21 @@
       <i class="icon-back"></i>
     </div>
     <h1 class="title" v-html="title"></h1>
+    <!--上面的背景图片-->
     <div class="bg-image" :style="bgStyle" ref="bgImage">
+      <!--播放按钮-->
       <div class="play-wrapper">
+        <!--数据加载完成才显示播放按钮-->
         <div ref="playBtn" v-show="songs.length>0" class="play">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
       </div>
+      <!--蒙层-->
       <div class="filter" ref="filter"></div>
     </div>
     <div class="bg-layer" ref="layer"></div>
+    <!--歌曲列表-->
     <scroll :data="songs" @scroll="scroll"
             :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list">
       <div class="song-list-wrapper">
@@ -68,6 +73,8 @@
     mounted() {
       this.imageHeight = this.$refs.bgImage.clientHeight
       this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT
+      // 设置初始top值
+      // this.$refs.list.$el:获取挂载的元素
       this.$refs.list.$el.style.top = `${this.imageHeight}px`
     },
     methods: {
@@ -79,6 +86,7 @@
       }
     },
     watch: {
+      // 监听纵向滚动距离，设置bglayer
       scrollY(newVal) {
         let translateY = Math.max(this.minTransalteY, newVal)
         let scale = 1

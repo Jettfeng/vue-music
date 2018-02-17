@@ -20,7 +20,6 @@
       <ul>
         <li v-for="(item, index) in shortcutList" :data-index="index" class="item"
             :class="{'current':currentIndex===index}">{{item}}
-
         </li>
       </ul>
     </div>

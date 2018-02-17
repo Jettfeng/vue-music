@@ -25,6 +25,7 @@
       this._getSingerList()
     },
     methods: {
+      // 子组件派发的事件
       selectSinger(singer) {
         this.$router.push({
           path: `/singer/${singer.id}`

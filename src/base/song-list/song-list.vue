@@ -20,6 +20,7 @@
       }
     },
     methods: {
+      // 描述
       getDesc(song) {
         return `${song.singer}·${song.album}`
       }

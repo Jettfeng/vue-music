@@ -40,7 +40,7 @@ let vendor = (() => {
 
   return false
 })()
-
+// 封装css3属性
 export function prefixStyle(style) {
   if (vendor === false) {
     return false
@@ -49,6 +49,5 @@ export function prefixStyle(style) {
   if (vendor === 'standard') {
     return style
   }
-
   return vendor + style.charAt(0).toUpperCase() + style.substr(1)
 }

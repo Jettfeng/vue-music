@@ -1,4 +1,5 @@
 export default class Song {
+  // 参数均为对象
   constructor({id, mid, singer, name, album, duration, image, url}) {
     this.id = id
     this.mid = mid

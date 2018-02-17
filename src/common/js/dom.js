@@ -40,7 +40,7 @@ let vendor = (() => {
 
   return false
 })()
-// å°è£…css3å±æ€§
+// ·â×°css3ÊôĞÔ
 export function prefixStyle(style) {
   if (vendor === false) {
     return false

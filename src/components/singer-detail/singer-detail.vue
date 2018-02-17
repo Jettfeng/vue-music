@@ -29,12 +29,10 @@
       }
     },
     created() {
-      console.log(this.singer)
       this._getDetail()
     },
     methods: {
       _getDetail() {
-        // 如果没有歌手id，返回歌手列表页
         if (!this.singer.id) {
           this.$router.push('/singer')
           return

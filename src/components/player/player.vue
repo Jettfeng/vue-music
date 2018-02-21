@@ -1,5 +1,6 @@
 <template>
   <div class="player" v-show="playlist.length>0">
+    <!--常规播放器-->
     <transition name="normal"
                 @enter="enter"
                 @after-enter="afterEnter"
@@ -11,6 +12,7 @@
           <img width="100%" height="100%" :src="currentSong.image">
         </div>
         <div class="top">
+          <!--切换迷你播放器-->
           <div class="back" @click="back">
             <i class="icon-back"></i>
           </div>
@@ -44,6 +46,7 @@
           </scroll>
         </div>
         <div class="bottom">
+          <!--歌词跟唱片园点-->
           <div class="dot-wrapper">
             <span class="dot" :class="{'active':currentShow==='cd'}"></span>
             <span class="dot" :class="{'active':currentShow==='lyric'}"></span>
@@ -55,6 +58,7 @@
             </div>
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
+          <!--控制条-->
           <div class="operators">
             <div class="icon i-left" @click="changeMode">
               <i :class="iconMode"></i>
@@ -75,6 +79,7 @@
         </div>
       </div>
     </transition>
+    <!--迷你播放器-->
     <transition name="mini">
       <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
@@ -116,7 +121,7 @@
   export default {
     data() {
       return {
-        songReady: false,
+        songReady: false, // 标志歌曲是否可以播放（数据加载完成）
         currentTime: 0,
         radius: 32,
         currentLyric: null,
@@ -204,6 +209,7 @@
         this.$refs.cdWrapper.style.transition = ''
         this.$refs.cdWrapper.style[transform] = ''
       },
+      // 切换播放状态
       togglePlaying() {
         if (!this.songReady) {
           return
@@ -214,6 +220,7 @@
         }
       },
       end() {
+        // 播放结束自动切换到下一曲
         if (this.mode === playMode.loop) {
           this.loop()
         } else {
@@ -221,6 +228,7 @@
         }
       },
       loop() {
+        // 循环播放
         this.$refs.audio.currentTime = 0
         this.$refs.audio.play()
         if (this.currentLyric) {
@@ -270,6 +278,7 @@
         this.songReady = true
       },
       updateTime(e) {
+        console.log(e)
         this.currentTime = e.target.currentTime
       },
       format(interval) {
@@ -343,6 +352,7 @@
         const touch = e.touches[0]
         const deltaX = touch.pageX - this.touch.startX
         const deltaY = touch.pageY - this.touch.startY
+        // 纵向滚动的绝对值大于横向滚动的绝对值时。返回
         if (Math.abs(deltaY) > Math.abs(deltaX)) {
           return
         }
@@ -397,6 +407,7 @@
         }
         return num
       },
+      // 获取初始位置
       _getPosAndScale() {
         const targetWidth = 40
         const paddingLeft = 40
@@ -436,6 +447,7 @@
           this.getLyric()
         }, 1000)
       },
+      // 检测播放状态，控制播放和暂停
       playing(newPlaying) {
         const audio = this.$refs.audio
         this.$nextTick(() => {

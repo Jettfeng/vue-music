@@ -96,10 +96,14 @@
           list: this.songs
         })
       },
-      ...mapActions([
-        'selectPlay',
-        'randomPlay'
-      ])
+      // ...mapActions([
+      //   'selectPlay',
+      //   'randomPlay'
+      // ])
+      ...mapActions({
+        selectPlay: 'selectPlay',
+        randomPlay: 'randomPlay'
+      })
     },
     watch: {
       scrollY(newVal) {

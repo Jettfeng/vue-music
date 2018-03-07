@@ -32,12 +32,10 @@
     methods: {
       progressTouchStart(e) {
         this.touch.initiated = true
-        // 第一个手指的横向坐标
         this.touch.startX = e.touches[0].pageX
         this.touch.left = this.$refs.progress.clientWidth
       },
       progressTouchMove(e) {
-        // 在没有touchstarst的情况下，禁止touchmove
         if (!this.touch.initiated) {
           return
         }

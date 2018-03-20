@@ -64,7 +64,6 @@
       search() {
         this.page = 1
         this.hasMore = true
-        // 第一次搜索的时候滚动到顶部
         this.$refs.suggest.scrollTo(0, 0)
         search(this.query, this.page, this.showSinger, perpage).then((res) => {
           if (res.code === ERR_OK) {
@@ -89,7 +88,6 @@
         this.$emit('listScroll')
       },
       selectItem(item) {
-        // item为歌手和歌曲的时候调到不同的路由
         if (item.type === TYPE_SINGER) {
           const singer = new Singer({
             id: item.singermid,

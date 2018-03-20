@@ -54,6 +54,7 @@
       }
     },
     computed: {
+      // 将两个数据合并后进行检测
       shortcut() {
         return this.hotKey.concat(this.searchHistory)
       },
